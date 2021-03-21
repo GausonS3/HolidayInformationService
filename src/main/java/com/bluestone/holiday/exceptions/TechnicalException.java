@@ -2,9 +2,9 @@ package com.bluestone.holiday.exceptions;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
 public class TechnicalException extends RuntimeException {
 
     private final String info;

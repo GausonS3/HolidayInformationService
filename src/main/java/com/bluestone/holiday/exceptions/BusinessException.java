@@ -1,10 +1,11 @@
 package com.bluestone.holiday.exceptions;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+@Getter
 public class BusinessException extends RuntimeException {
 
     private final String info;
