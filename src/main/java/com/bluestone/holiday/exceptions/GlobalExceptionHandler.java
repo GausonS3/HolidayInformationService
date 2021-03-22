@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<String> handleTechnicalException(BusinessException exception) {
+    public ResponseEntity<String> handleBusinessException(BusinessException exception) {
         log.error("Business error {}", exception.getInfo());
         return new ResponseEntity<>(exception.getInfo(), HttpStatus.BAD_REQUEST);
     }

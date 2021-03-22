@@ -17,7 +17,7 @@ public class CountryValidationService {
 
     public void validateCountryCodes(String firstCountryCode, String secondCountryCode) {
         log.info("Validating following country codes {} {}", firstCountryCode, secondCountryCode);
-        List<CountryDto> availableCountryCodes = nagerApi.getAvailableCountryCodes();
+        var availableCountryCodes = nagerApi.getAvailableCountryCodes();
 
         throwIfCountryMissing(availableCountryCodes, firstCountryCode);
         throwIfCountryMissing(availableCountryCodes, secondCountryCode);
@@ -25,7 +25,7 @@ public class CountryValidationService {
         log.info("No errors during country codes validation.");
     }
 
-    public void throwIfCountryMissing(List<CountryDto> availableCountryCodes, String countryCode) {
+    private void throwIfCountryMissing(List<CountryDto> availableCountryCodes, String countryCode) {
         availableCountryCodes.stream()
                 .map(CountryDto::getKey)
                 .filter(i -> i.equals(countryCode))

@@ -1,8 +1,5 @@
 package com.bluestone.holiday.exceptions;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter

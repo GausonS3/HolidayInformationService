@@ -1,12 +1,21 @@
 package com.bluestone.holiday.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
-public class PublicHolidayDto {
+@AllArgsConstructor
+@NoArgsConstructor
+public class PublicHolidayDto implements Serializable {
 
-    private final LocalDate date;
-    private final String localName;
+    @Serial
+    private static final long serialVersionUID = -5328890921130997452L;
+
+    private LocalDate date;
+    private String localName;
 }

@@ -28,11 +28,11 @@ public class HolidayInformationController {
     private final HolidayService holidayService;
     private final CountryValidationService countryValidationService;
 
-    @GetMapping
-    public ResponseEntity<MatchingHolidayDto> test(@RequestParam(value = "firstCountryCode") String firstCountryCode,
-                                                   @RequestParam(value = "secondCountryCode") String secondCountryCode,
-                                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-                                                       @RequestParam(value = "date") LocalDate date) {
+    @GetMapping("/matching-holiday")
+    public ResponseEntity<MatchingHolidayDto> getNextMatchingHoliday(@RequestParam(value = "firstCountryCode") String firstCountryCode,
+                                                                     @RequestParam(value = "secondCountryCode") String secondCountryCode,
+                                                                     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                         @RequestParam(value = "date") LocalDate date) {
         log.info("Request received with following params: firstCountryCode {}, second country code {}, date {}",
                 firstCountryCode, secondCountryCode, date);
         countryValidationService.validateCountryCodes(firstCountryCode, secondCountryCode);
@@ -41,10 +41,9 @@ public class HolidayInformationController {
                 .orElse(new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 
-    @GetMapping("/listAvailableCountryCodes")
-    @ResponseStatus(HttpStatus.OK)
-    public List<CountryDto> listAvailableCountryCodes() {
+    @GetMapping("/country-codes")
+    public ResponseEntity<List<CountryDto>> listAvailableCountryCodes() {
         log.info("List available country codes request received with following params");
-        return holidayService.getAvailableCountryCodes();
+        return new ResponseEntity<>(holidayService.getAvailableCountryCodes(), HttpStatus.OK);
     }
 }
