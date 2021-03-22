@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class HolidayService {
 
-    private final NagerApi nagerApi;
+    private final HolidayApi holidayApi;
 
     public List<CountryDto> getAvailableCountryCodes() {
-        return nagerApi.getAvailableCountryCodes();
+        return holidayApi.getAvailableCountryCodes();
     }
 
     public Optional<MatchingHolidayDto> getNextMatchingHoliday(String firstCountryCode, String secondCountryCode, LocalDate date) {
@@ -41,8 +41,8 @@ public class HolidayService {
     }
 
     private Optional<MatchingHolidayDto> getMatchingHolidayForGivenYear(String firstCountryCode, String secondCountryCode, LocalDate date) {
-        var holidaysForFirstCountry = nagerApi.getHolidaysFor(date.getYear(), firstCountryCode);
-        var holidaysForSecondCountry = nagerApi.getHolidaysFor(date.getYear(), secondCountryCode);
+        var holidaysForFirstCountry = holidayApi.getHolidaysFor(date.getYear(), firstCountryCode);
+        var holidaysForSecondCountry = holidayApi.getHolidaysFor(date.getYear(), secondCountryCode);
 
         var upcomingHolidaysForFirstCountry = filterPastHolidays(date, holidaysForFirstCountry);
         var upcomingHolidaysForSecondCountry = filterPastHolidays(date, holidaysForSecondCountry);
@@ -53,8 +53,8 @@ public class HolidayService {
     private Optional<MatchingHolidayDto> getMatchingHolidayForFollowingYear(String firstCountryCode, String secondCountryCode, LocalDate date) {
         int upcomingYear = date.plusYears(1).getYear();
 
-        var holidaysInNextYearForFirstCountry = nagerApi.getHolidaysFor(upcomingYear, firstCountryCode);
-        var holidaysInNextYearForSecondCountry = nagerApi.getHolidaysFor(upcomingYear, secondCountryCode);
+        var holidaysInNextYearForFirstCountry = holidayApi.getHolidaysFor(upcomingYear, firstCountryCode);
+        var holidaysInNextYearForSecondCountry = holidayApi.getHolidaysFor(upcomingYear, secondCountryCode);
 
         return getMatchingHolidayForYear(holidaysInNextYearForFirstCountry, holidaysInNextYearForSecondCountry);
     }

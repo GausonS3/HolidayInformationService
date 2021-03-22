@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 @Slf4j
-public class NagerApi {
+public class NagerApi implements HolidayApi {
 
     private final WebClient webClient;
 

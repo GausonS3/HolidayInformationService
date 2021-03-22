@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 class HolidayServiceTest {
 
     @Mock
-    private NagerApi nagerApi;
+    private HolidayApi holidayApi;
 
     @InjectMocks
     private HolidayService holidayService;
@@ -34,14 +34,14 @@ class HolidayServiceTest {
 
         List<CountryDto> availableCountryCodes = List.of(pl, cn);
 
-        when(nagerApi.getAvailableCountryCodes()).thenReturn(availableCountryCodes);
+        when(holidayApi.getAvailableCountryCodes()).thenReturn(availableCountryCodes);
 
         // when
         List<CountryDto> result = holidayService.getAvailableCountryCodes();
 
         // then
         assertEquals(availableCountryCodes, result);
-        verify(nagerApi, times(1)).getAvailableCountryCodes();
+        verify(holidayApi, times(1)).getAvailableCountryCodes();
     }
 
     @Test
@@ -59,8 +59,8 @@ class HolidayServiceTest {
         PublicHolidayDto plNewYear = new PublicHolidayDto(dateOfMatchingHoliday, plTestHolidayName);
         PublicHolidayDto cnNewYear = new PublicHolidayDto(dateOfMatchingHoliday, cnTestHolidayName);
 
-        when(nagerApi.getHolidaysFor(date.getYear(), firstCountryCode)).thenReturn(List.of(plNewYear));
-        when(nagerApi.getHolidaysFor(date.getYear(), secondCountryCode)).thenReturn(List.of(cnNewYear));
+        when(holidayApi.getHolidaysFor(date.getYear(), firstCountryCode)).thenReturn(List.of(plNewYear));
+        when(holidayApi.getHolidaysFor(date.getYear(), secondCountryCode)).thenReturn(List.of(cnNewYear));
 
         // when
         Optional<MatchingHolidayDto> result = holidayService.getNextMatchingHoliday(firstCountryCode, secondCountryCode, date);
@@ -71,8 +71,8 @@ class HolidayServiceTest {
         assertEquals(plTestHolidayName, result.get().getName1());
         assertEquals(cnTestHolidayName, result.get().getName2());
 
-        verify(nagerApi, times(1)).getHolidaysFor(date.getYear(), firstCountryCode);
-        verify(nagerApi, times(1)).getHolidaysFor(date.getYear(), secondCountryCode);
+        verify(holidayApi, times(1)).getHolidaysFor(date.getYear(), firstCountryCode);
+        verify(holidayApi, times(1)).getHolidaysFor(date.getYear(), secondCountryCode);
     }
 
     @Test
@@ -90,8 +90,8 @@ class HolidayServiceTest {
         PublicHolidayDto plTestHolidayInCurrentYear = new PublicHolidayDto(dateOfMatchingHolidayInCurrentYear, plTestHolidayName);
         PublicHolidayDto cnTestHolidayInCurrentYear = new PublicHolidayDto(dateOfMatchingHolidayInCurrentYear, cnTestHolidayName);
 
-        when(nagerApi.getHolidaysFor(date.getYear(), firstCountryCode)).thenReturn(List.of(plTestHolidayInCurrentYear));
-        when(nagerApi.getHolidaysFor(date.getYear(), secondCountryCode)).thenReturn(List.of(cnTestHolidayInCurrentYear));
+        when(holidayApi.getHolidaysFor(date.getYear(), firstCountryCode)).thenReturn(List.of(plTestHolidayInCurrentYear));
+        when(holidayApi.getHolidaysFor(date.getYear(), secondCountryCode)).thenReturn(List.of(cnTestHolidayInCurrentYear));
 
         String plTestHolidayNameInFollowingYear = "FollowingTestHoliday";
         String cnTestHolidayNameInFollowingYear = "中國傳統新年";
@@ -101,8 +101,8 @@ class HolidayServiceTest {
         PublicHolidayDto plNewYearInFollowingYear = new PublicHolidayDto(dateOfMatchingHolidayInFollowingYear, plTestHolidayNameInFollowingYear);
         PublicHolidayDto cnNewYeaInFollowingYearr = new PublicHolidayDto(dateOfMatchingHolidayInFollowingYear, cnTestHolidayNameInFollowingYear);
 
-        when(nagerApi.getHolidaysFor(date.plusYears(1).getYear(), firstCountryCode)).thenReturn(List.of(plNewYearInFollowingYear));
-        when(nagerApi.getHolidaysFor(date.plusYears(1).getYear(), secondCountryCode)).thenReturn(List.of(cnNewYeaInFollowingYearr));
+        when(holidayApi.getHolidaysFor(date.plusYears(1).getYear(), firstCountryCode)).thenReturn(List.of(plNewYearInFollowingYear));
+        when(holidayApi.getHolidaysFor(date.plusYears(1).getYear(), secondCountryCode)).thenReturn(List.of(cnNewYeaInFollowingYearr));
 
         // when
         Optional<MatchingHolidayDto> result = holidayService.getNextMatchingHoliday(firstCountryCode, secondCountryCode, date);
@@ -113,10 +113,10 @@ class HolidayServiceTest {
         assertEquals(plTestHolidayNameInFollowingYear, result.get().getName1());
         assertEquals(cnTestHolidayNameInFollowingYear, result.get().getName2());
 
-        verify(nagerApi, times(1)).getHolidaysFor(date.getYear(), firstCountryCode);
-        verify(nagerApi, times(1)).getHolidaysFor(date.getYear(), secondCountryCode);
-        verify(nagerApi, times(1)).getHolidaysFor(date.plusYears(1).getYear(), firstCountryCode);
-        verify(nagerApi, times(1)).getHolidaysFor(date.plusYears(1).getYear(), secondCountryCode);
+        verify(holidayApi, times(1)).getHolidaysFor(date.getYear(), firstCountryCode);
+        verify(holidayApi, times(1)).getHolidaysFor(date.getYear(), secondCountryCode);
+        verify(holidayApi, times(1)).getHolidaysFor(date.plusYears(1).getYear(), firstCountryCode);
+        verify(holidayApi, times(1)).getHolidaysFor(date.plusYears(1).getYear(), secondCountryCode);
     }
 
     @Test
@@ -126,19 +126,19 @@ class HolidayServiceTest {
         String secondCountryCode = "CN";
         LocalDate date = LocalDate.of(2020, 6, 6);
 
-        when(nagerApi.getHolidaysFor(date.getYear(), firstCountryCode)).thenReturn(Collections.emptyList());
-        when(nagerApi.getHolidaysFor(date.getYear(), secondCountryCode)).thenReturn(Collections.emptyList());
-        when(nagerApi.getHolidaysFor(date.plusYears(1).getYear(), firstCountryCode)).thenReturn(Collections.emptyList());
-        when(nagerApi.getHolidaysFor(date.plusYears(1).getYear(), secondCountryCode)).thenReturn(Collections.emptyList());
+        when(holidayApi.getHolidaysFor(date.getYear(), firstCountryCode)).thenReturn(Collections.emptyList());
+        when(holidayApi.getHolidaysFor(date.getYear(), secondCountryCode)).thenReturn(Collections.emptyList());
+        when(holidayApi.getHolidaysFor(date.plusYears(1).getYear(), firstCountryCode)).thenReturn(Collections.emptyList());
+        when(holidayApi.getHolidaysFor(date.plusYears(1).getYear(), secondCountryCode)).thenReturn(Collections.emptyList());
 
         // when
         Optional<MatchingHolidayDto> result = holidayService.getNextMatchingHoliday(firstCountryCode, secondCountryCode, date);
 
         // then
         assertTrue(result.isEmpty());
-        verify(nagerApi, times(1)).getHolidaysFor(date.getYear(), firstCountryCode);
-        verify(nagerApi, times(1)).getHolidaysFor(date.getYear(), secondCountryCode);
-        verify(nagerApi, times(1)).getHolidaysFor(date.plusYears(1).getYear(), firstCountryCode);
-        verify(nagerApi, times(1)).getHolidaysFor(date.plusYears(1).getYear(), secondCountryCode);
+        verify(holidayApi, times(1)).getHolidaysFor(date.getYear(), firstCountryCode);
+        verify(holidayApi, times(1)).getHolidaysFor(date.getYear(), secondCountryCode);
+        verify(holidayApi, times(1)).getHolidaysFor(date.plusYears(1).getYear(), firstCountryCode);
+        verify(holidayApi, times(1)).getHolidaysFor(date.plusYears(1).getYear(), secondCountryCode);
     }
 }
